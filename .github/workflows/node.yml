@@ -89,6 +89,9 @@ jobs:
       working-directory: bindings/nodejs
       shell: bash
       run: |
+        # Copy .node file to pkgs directory for local npm install
+        cp index.node "pkgs/@stevenlin/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}/"
+        # Also prepare npm directory for publishing
         PKG_DIR="npm/@stevenlin/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}"
         mkdir -p "$PKG_DIR"
         cp index.node "$PKG_DIR/"
