@@ -1,0 +1,6 @@
+# Build artifacts
+pkg/
+node_modules/
+
+# Test files
+test-package
