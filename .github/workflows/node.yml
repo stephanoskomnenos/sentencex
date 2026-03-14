@@ -85,11 +85,18 @@ jobs:
       env:
         CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
 
-    - name: Move index.node to platform-specific folder
+    - name: Prepare platform package with scoped name
       working-directory: bindings/nodejs
       shell: bash
       run: |
-        cp index.node pkgs/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}/
+        PKG_DIR="npm/@stevenlin/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}"
+        mkdir -p "$PKG_DIR"
+        cp index.node "$PKG_DIR/"
+        cp pkgs/@stevenlin/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}/package.json "$PKG_DIR/"
+        # Update version to tag version
+        VERSION="${{ github.ref_name }}"
+        VERSION="${VERSION#v}"
+        node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('$PKG_DIR/package.json')); p.version='$VERSION'; fs.writeFileSync('$PKG_DIR/package.json', JSON.stringify(p,null,2));"
 
     - name: Install dependencies
       working-directory: bindings/nodejs
@@ -120,7 +127,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}
-        path: bindings/nodejs/pkgs/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}
+        path: bindings/nodejs/npm/@stevenlin/sentencex-${{ matrix.settings.platform }}-${{ matrix.settings.arch }}
         if-no-files-found: error
 
   # Publish platform-specific packages
@@ -163,10 +170,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: sentencex-${{ matrix.platform }}-${{ matrix.arch }}
-        path: bindings/nodejs/npm/sentencex-${{ matrix.platform }}-${{ matrix.arch }}
+        path: bindings/nodejs/npm/@stevenlin/sentencex-${{ matrix.platform }}-${{ matrix.arch }}
 
     - name: Publish platform package
-      working-directory: bindings/nodejs/npm/sentencex-${{ matrix.platform }}-${{ matrix.arch }}
+      working-directory: bindings/nodejs/npm/@stevenlin/sentencex-${{ matrix.platform }}-${{ matrix.arch }}
       run: npm publish --access public
 
   # Publish main package with optionalDependencies
@@ -197,11 +204,11 @@ jobs:
         const fs = require('fs');
         const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
         pkg.optionalDependencies = {
-          'sentencex-linux-x64': pkg.version,
-          'sentencex-linux-arm64': pkg.version,
-          'sentencex-darwin-x64': pkg.version,
-          'sentencex-darwin-arm64': pkg.version,
-          'sentencex-win32-x64': pkg.version
+          '@stevenlin/sentencex-linux-x64': pkg.version,
+          '@stevenlin/sentencex-linux-arm64': pkg.version,
+          '@stevenlin/sentencex-darwin-x64': pkg.version,
+          '@stevenlin/sentencex-darwin-arm64': pkg.version,
+          '@stevenlin/sentencex-win32-x64': pkg.version
         };
         fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
         "

@@ -1,12 +1,12 @@
 {
-  "name": "sentencex",
+  "name": "@stevenlin/sentencex",
   "version": "1.0.17",
   "description": "sentence segmentation library",
   "type": "module",
   "main": "index.cjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wikimedia/sentencex.git"
+    "url": "git+https://github.com/stephanoskomnenos/sentencex.git"
   },
   "author": "Santhosh Thottingal <santhosh.thottingal@gmail.com>",
   "license": "MIT",
@@ -35,11 +35,11 @@
     }
   },
   "optionalDependencies": {
-    "sentencex-linux-x64": "file:pkgs/sentencex-linux-x64",
-    "sentencex-linux-arm64": "file:pkgs/sentencex-linux-arm64",
-    "sentencex-darwin-x64": "file:pkgs/sentencex-darwin-x64",
-    "sentencex-darwin-arm64": "file:pkgs/sentencex-darwin-arm64",
-    "sentencex-win32-x64": "file:pkgs/sentencex-win32-x64"
+    "@stevenlin/sentencex-linux-x64": "file:pkgs/@stevenlin/sentencex-linux-x64",
+    "@stevenlin/sentencex-linux-arm64": "file:pkgs/@stevenlin/sentencex-linux-arm64",
+    "@stevenlin/sentencex-darwin-x64": "file:pkgs/@stevenlin/sentencex-darwin-x64",
+    "@stevenlin/sentencex-darwin-arm64": "file:pkgs/@stevenlin/sentencex-darwin-arm64",
+    "@stevenlin/sentencex-win32-x64": "file:pkgs/@stevenlin/sentencex-win32-x64"
   },
   "scripts": {
     "build": "cargo build --release",

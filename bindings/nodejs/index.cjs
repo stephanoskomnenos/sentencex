@@ -1,5 +1,5 @@
 const { platform, arch } = process;
-const packageName = `sentencex-${platform}-${arch}`;
+const packageName = `@stevenlin/sentencex-${platform}-${arch}`;
 
 try {
   module.exports = require(packageName);

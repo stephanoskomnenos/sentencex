@@ -2,7 +2,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 const { platform, arch } = process;
-const packageName = `sentencex-${platform}-${arch}`;
+const packageName = `@stevenlin/sentencex-${platform}-${arch}`;
 
 const require = createRequire(import.meta.url);
 
